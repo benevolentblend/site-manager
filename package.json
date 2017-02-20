@@ -1,0 +1,16 @@
+{
+  "name": "sitemanager",
+  "version": "1.0.0",
+  "description": "Manage a website from s3",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "author": "Benjamin Thomas <benjamin@thomasnetwork.net>",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.16.0",
+    "electron-prebuilt": "^1.4.13",
+    "s3": "^4.4.0"
+  }
+}
