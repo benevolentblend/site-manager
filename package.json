@@ -1,8 +1,8 @@
 {
   "name": "sitemanager",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "description": "Manage a website from s3",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron main.js"
   },
@@ -10,7 +10,11 @@
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.16.0",
-    "electron-prebuilt": "^1.4.13",
+    "electron": "^1.4.13",
+    "electron-json-storage": "^3.0.1",
     "s3": "^4.4.0"
+  },
+  "devDependencies": {
+    "bower": "^1.8.0"
   }
 }

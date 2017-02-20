@@ -1,7 +1,7 @@
 var s3 = require('s3');
 var AWS = require('aws-sdk');
 // Load credentials and set region from JSON file
-AWS.config.loadFromPath('./config.json');
+AWS.config.loadFromPath(`${__dirname}/config.json`);
 
 var awsS3Client = new AWS.S3();
 var options = {
@@ -10,23 +10,35 @@ var options = {
 };
 var client = s3.createClient(options);
 
-var params = {
-  localDir: `${__dirname}/public`,
-  deleteRemoved: true, // default false, whether to remove s3 objects
+var downloadParams = {
+  localDir: "",
+  deleteRemoved: false, // default false, whether to remove s3 objects
+                       // that have no corresponding local file.
+
+  s3Params: {
+    Bucket: "kutvspotlite.club",
+    Prefix: ""
+  },
+};
+
+var uploadParams = {
+  localDir: "",
+  deleteRemoved: false, // default false, whether to remove s3 objects
                        // that have no corresponding local file.
 
   s3Params: {
     Bucket: "kutvspotlite.club",
     Prefix: "",
     ACL: "public-read"
-    // other options supported by putObject, except Body and ContentLength.
-    // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
   },
 };
 
-exports.upload = function() {
-  console.log("Uploading!!!!");
-  var uploader = client.uploadDir(params);
+
+exports.upload = function(local) {
+  if(!local) return;
+  console.log("Uploading!!!!")
+  uploadParams.localDir = local
+  var uploader = client.uploadDir(uploadParams);
   uploader.on('error', function(err) {
     console.error("unable to sync:", err.stack);
   });
@@ -38,9 +50,11 @@ exports.upload = function() {
   });
 }
 
-exports.download = function() {
+exports.download = function(local) {
+  if(!local) return;
   console.log("Downloading!!!!");
-  var uploader = client.downloadDir(params);
+  downloadParams.localDir = local
+  var uploader = client.downloadDir(downloadParams)
   uploader.on('error', function(err) {
     console.error("unable to sync:", err.stack);
   });
