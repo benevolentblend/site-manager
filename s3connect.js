@@ -40,7 +40,7 @@ exports.upload = function() {
 
 exports.download = function() {
   console.log("Downloading!!!!");
-  var uploader = client.uploadDir(params);
+  var uploader = client.downloadDir(params);
   uploader.on('error', function(err) {
     console.error("unable to sync:", err.stack);
   });
