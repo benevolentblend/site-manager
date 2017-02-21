@@ -7,7 +7,7 @@
   </head>
   <body>
     <div class="container-fluid">
-      <h1>Site Manager</h1>
+      <h1 class="text-center">Site Manager</h1>
       <div class="row">
         <div class="col-xs-12">
           <label>Local Site Directory<label>
@@ -20,9 +20,19 @@
         </div>
       </div>
       <br>
-      <button id="upload-button" class="btn">Upload</button>
-      <button id="download-button" class="btn">Download</button>
-      <button id="preview-button" class="btn">Preview</button>
+      <div class="row">
+        <div class="col-xs-4">
+            <button id="upload-button" class="btn btn-block"><i class="glyphicon glyphicon-open"></i> Upload</button>
+        </div>
+        <div class="col-xs-4">
+          <button id="download-button" class="btn btn-block"><i class="glyphicon glyphicon-save"></i> Download</button>
+        </div>
+        <div class="col-xs-4">
+          <button id="preview-button" class="btn btn-block"><i class="glyphicon glyphicon-search"></i> Preview</button>
+        </div>
+      </div>
+      <h3>Status:</h3>
+      <p id="status-area">Waiting.</p>
     </div>
   </body>
   <script>require('./index.js')</script>

@@ -2,11 +2,14 @@ const s3connect = require('./s3connect.js')
 const storage = require('electron-json-storage')
 const {dialog, shell} = require('electron').remote
 
+console.log(s3connect)
+
 var uploadButton = document.getElementById('upload-button')
 var downloadButton = document.getElementById('download-button')
 var previewButton = document.getElementById('preview-button')
 var pathButton = document.getElementById('path-button')
 var pathInput = document.getElementById('path-input')
+var statusArea = document.getElementById('status-area')
 
 var path = "";
 
@@ -42,5 +45,8 @@ storage.get('site-path', (err, data) => {
       shell.openExternal("file://" + path + '/index.html')
     }
   })
-
 })
+
+s3connect.messager.on('status', (status) => {
+  statusArea.innerHTML = status
+});

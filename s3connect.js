@@ -1,5 +1,10 @@
-var s3 = require('s3');
-var AWS = require('aws-sdk');
+const s3 = require('s3');
+const AWS = require('aws-sdk');
+const EventEmitter = require('events');
+
+class MessageEmitter extends EventEmitter {}
+
+const messageEmitter = new MessageEmitter();
 // Load credentials and set region from JSON file
 AWS.config.loadFromPath(`${__dirname}/config.json`);
 
@@ -36,32 +41,39 @@ var uploadParams = {
 
 exports.upload = function(local) {
   if(!local) return;
+  messageEmitter.emit('status', 'Uploading files to the server...');
   console.log("Uploading!!!!")
   uploadParams.localDir = local
   var uploader = client.uploadDir(uploadParams);
   uploader.on('error', function(err) {
+    messageEmitter.emit('status', 'An error occurred with trying to upload.');
     console.error("unable to sync:", err.stack);
   });
   uploader.on('progress', function() {
     console.log("progress", uploader.progressAmount, uploader.progressTotal);
   });
   uploader.on('end', function() {
+    messageEmitter.emit('status', 'done.');
     console.log("done uploading");
   });
 }
 
 exports.download = function(local) {
   if(!local) return;
-  console.log("Downloading!!!!");
+  messageEmitter.emit('status', 'Downloading files from the server...');
   downloadParams.localDir = local
   var uploader = client.downloadDir(downloadParams)
   uploader.on('error', function(err) {
+    messageEmitter.emit('status', 'An error occurred with trying to download.');
     console.error("unable to sync:", err.stack);
   });
   uploader.on('progress', function() {
     console.log("progress", uploader.progressAmount, uploader.progressTotal);
   });
   uploader.on('end', function() {
+    messageEmitter.emit('status', 'done.');
     console.log("done downloading");
   });
 }
+
+exports.messager = messageEmitter;
