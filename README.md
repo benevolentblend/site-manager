@@ -1,2 +1,3 @@
-# Site Manager
-Simple interface for managing an s3 website with Electron
+Site Manager
+---
+A simple interface for managing an s3 website with Electron
